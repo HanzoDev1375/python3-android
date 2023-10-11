@@ -5,7 +5,7 @@ set -x
 
 THIS_DIR="$PWD"
 
-PYVER=3.11.0
+PYVER=3.12.0
 SRCDIR=src/Python-$PYVER
 
 COMMON_ARGS="--arch ${ARCH:-arm} --api ${ANDROID_API:-23}"
@@ -14,10 +14,12 @@ if [ ! -d $SRCDIR ]; then
     mkdir -p src
     pushd src
     curl -vLO https://www.python.org/ftp/python/$PYVER/Python-$PYVER.tar.xz
+
     # Use --no-same-owner so that files extracted are still owned by the
     # running user in a rootless container
-    tar --no-same-owner -xf Python-$PYVER.tar.xz
+	tar --no-same-owner -xf Python-$PYVER.tar.xz
     popd
+
 fi
 
 cp -r Android $SRCDIR
@@ -31,3 +33,4 @@ make install DESTDIR="$THIS_DIR/build"
 popd
 cp -r $SRCDIR/Android/sysroot/usr/share/terminfo build/usr/share/
 cp devscripts/env.sh build/
+	

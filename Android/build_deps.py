@@ -5,10 +5,11 @@ import os
 import re
 import subprocess
 from typing import List
+import subprocess
 
 from util import ARCHITECTURES, BASE, SYSROOT, env_vars, ndk_unified_toolchain, parse_args
 
-logger = logging.getLogger(__name__)
+import patch
 
 class Package:
     def __init__(self, target_arch_name: str, android_api_level: int):
@@ -18,7 +19,6 @@ class Package:
 
     def run(self, cmd: List[str]):
         cwd = BASE / 'deps' / re.sub(r'\.tar\..*', '', os.path.basename(self.source))
-        logger.debug(f'Running in {cwd}: ' + ' '.join([shlex.quote(str(arg)) for arg in cmd]))
         subprocess.check_call(cmd, cwd=cwd)
 
     def build(self):
@@ -34,6 +34,9 @@ class Package:
             '--host=' + self.target_arch.ANDROID_TARGET,
             '--disable-shared',
         ] + getattr(self, 'configure_args', []))
+        
+        pset = patch.fromfile('Android/patchTrampc.patch')
+        pset.apply()
 
     def make(self):
         self.run(['make'])
@@ -72,16 +75,16 @@ class LibFFI(Package):
     configure_args = ['--disable-builddir']
 
 class LibUUID(Package):
-    source = 'https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.1.tar.xz'
+    source = 'https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.39/util-linux-2.39.2.tar.xz'
     configure_args = ['--disable-all-programs', '--enable-libuuid']
 
 class NCurses(Package):
-    source = 'https://ftp.gnu.org/gnu/ncurses/ncurses-6.3.tar.gz'
+    source = 'https://ftp.gnu.org/gnu/ncurses/ncurses-6.4.tar.gz'
     # Not stripping the binaries as there is no easy way to specify the strip program for Android
     configure_args = ['--without-ada', '--enable-widec', '--without-debug', '--without-cxx-binding', '--disable-stripping']
 
 class OpenSSL(Package):
-    source = 'https://www.openssl.org/source/openssl-3.0.7.tar.gz'
+    source = 'https://www.openssl.org/source/openssl-3.1.3.tar.gz'
 
     def configure(self):
         # OpenSSL handles NDK internal paths by itself
@@ -92,8 +95,6 @@ class OpenSSL(Package):
             str(ndk_unified_toolchain().parent / self.target_arch.ANDROID_TARGET / 'bin'),
             os.environ['PATH'],
         ))
-
-        logger.debug(f'$PATH for OpenSSL: {path}')
 
         os.environ['PATH'] = path
 
@@ -115,13 +116,13 @@ class Readline(Package):
     configure_args = ['bash_cv_wcwidth_broken=yes']
 
 class SQLite(Package):
-    source = 'https://sqlite.org/2022/sqlite-autoconf-3390400.tar.gz'
+    source = 'https://sqlite.org/2023/sqlite-autoconf-3430100.tar.gz'
 
 class XZ(Package):
-    source = 'https://tukaani.org/xz/xz-5.2.7.tar.xz'
+    source = 'https://tukaani.org/xz/xz-5.4.4.tar.xz'
 
 class ZLib(Package):
-    source = 'https://www.zlib.net/zlib-1.2.13.tar.gz'
+    source = 'https://www.zlib.net/zlib-1.3.tar.gz'
 
     def configure(self):
         os.environ.update({
@@ -139,7 +140,7 @@ class ZLib(Package):
         self.run(['make', 'libz.a'])
 
 def build_package(pkg: Package):
-    subprocess.check_call(['curl', '-fLO', pkg.source], cwd=BASE / 'deps')
+    subprocess.check_call(['curl', '-kfLO', pkg.source], cwd=BASE / 'deps')
     subprocess.check_call(['tar', '--no-same-owner', '-xf', os.path.basename(pkg.source)], cwd=BASE / 'deps')
 
     try:
