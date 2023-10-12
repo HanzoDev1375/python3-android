@@ -4,11 +4,12 @@ import logging
 import os
 import re
 import subprocess
-from typing import List
-import subprocess
 import patch
+from typing import List
 
 from util import ARCHITECTURES, BASE, SYSROOT, env_vars, ndk_unified_toolchain, parse_args
+
+logger = logging.getLogger(__name__)
 
 class Package:
     def __init__(self, target_arch_name: str, android_api_level: int):
@@ -18,6 +19,7 @@ class Package:
 
     def run(self, cmd: List[str]):
         cwd = BASE / 'deps' / re.sub(r'\.tar\..*', '', os.path.basename(self.source))
+        logger.debug(f'Running in {cwd}: ' + ' '.join([shlex.quote(str(arg)) for arg in cmd]))
         subprocess.check_call(cmd, cwd=cwd)
 
     def build(self):
@@ -94,6 +96,8 @@ class OpenSSL(Package):
             str(ndk_unified_toolchain().parent / self.target_arch.ANDROID_TARGET / 'bin'),
             os.environ['PATH'],
         ))
+
+        logger.debug(f'$PATH for OpenSSL: {path}')
 
         os.environ['PATH'] = path
 
