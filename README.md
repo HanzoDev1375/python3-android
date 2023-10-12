@@ -7,8 +7,8 @@ Building requires:
 -----
 
 1. Linux. This project might work on other systems supported by NDK but no guarantee.
-2. Android NDK r26 installed and environment variable ``$ANDROID_NDK`` points to its root directory. Older NDK may not work and NDK <= r18 is known to be incompatible.
-   <br>An example of how to set the environment variable would be ``export ANDROID_NDK="/home/myuser/android-ndk-r26-linux" >> $HOME/.bashrc``
+2. Android NDK r26b installed and environment variable ``$ANDROID_NDK`` points to its root directory. Older NDK may not work and NDK <= r18 is known to be incompatible.
+   <br>An example of how to set the environment variable would be ``export ANDROID_NDK="/home/myuser/android-ndk-r26b-linux" >> $HOME/.bashrc``
 
 <br>
 Running requires:
@@ -24,9 +24,9 @@ Build
 1. Run `sudo ./clean.sh` for good measure, and after each build.
 2. You will need a separate build run for every API Level/architecture combination you wish to run on:
    <br>Here are a couple of examples to build a static version of the library with docker.
-   * Build 64 bit `sudo docker run --rm -it -v $(pwd):/python3-android -v /mnt/c/SPE/android-ndk-r26 --env ARCH=arm64 --env ANDROID_API=23 python:3.12.0-slim /python3-android/docker-build.sh --enable-shared --without-ensurepip --disable-ipv6 --with-build-python`
-   * Build 32 bit `sudo docker run --rm -it -v $(pwd):/python3-android -v /mnt/c/SPE/android-ndk-r26 --env ARCH=arm --env ANDROID_API=23 python:3.12.0-slim /python3-android/docker-build.sh --enable-shared --without-ensurepip --disable-ipv6 --with-build-python`
-   * Build x86_64 `sudo docker run --rm -it -v $(pwd):/python3-android -v /mnt/c/SPE/android-ndk-r26 --env ARCH=x86_64 --env ANDROID_API=23 python:3.12.0-slim /python3-android/docker-build.sh --enable-shared --without-ensurepip --disable-ipv6 --with-build-python`
+   * Build 64 bit `sudo docker run --rm -it -v $(pwd):/python3-android -v ${NDK_PATH}:/android-ndk:ro --env ARCH=arm64 --env ANDROID_API=23 python:3.12.0-slim /python3-android/docker-build.sh --enable-shared --without-ensurepip --disable-ipv6 --with-build-python`
+   * Build 32 bit `sudo docker run --rm -it -v $(pwd):/python3-android -v ${NDK_PATH}:/android-ndk:ro --env ARCH=arm --env ANDROID_API=23 python:3.12.0-slim /python3-android/docker-build.sh --enable-shared --without-ensurepip --disable-ipv6 --with-build-python`
+   * Build x86_64 `sudo docker run --rm -it -v $(pwd):/python3-android -v ${NDK_PATH}:/android-ndk:ro --env ARCH=x86_64 --env ANDROID_API=23 python:3.12.0-slim /python3-android/docker-build.sh --enable-shared --without-ensurepip --disable-ipv6 --with-build-python`
 
 
 Installation & Running

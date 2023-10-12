@@ -1,0 +1,20 @@
+--- /android-ndk-r26b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/grp.h	2023-10-05 20:43:06.000000000 -0500
++++ /android-ndk-r26b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/grp.h	2023-10-11 15:13:45.525034100 -0500
+@@ -52,12 +52,12 @@
+ 
+ /* Note: Android has thousands and thousands of ids to iterate through. */
+ 
+-#if __ANDROID_API__ >= 26
+-struct group* _Nullable getgrent(void) __INTRODUCED_IN(26);
++#if __ANDROID_API__ >= 23
++struct group* _Nullable getgrent(void) __INTRODUCED_IN(23);
+ 
+-void setgrent(void) __INTRODUCED_IN(26);
+-void endgrent(void) __INTRODUCED_IN(26);
+-#endif /* __ANDROID_API__ >= 26 */
++void setgrent(void) __INTRODUCED_IN(23);
++void endgrent(void) __INTRODUCED_IN(23);
++#endif /* __ANDROID_API__ >= 23 */
+ 
+ 
+ #if __ANDROID_API__ >= 24

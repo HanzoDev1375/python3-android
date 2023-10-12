@@ -6,10 +6,9 @@ import re
 import subprocess
 from typing import List
 import subprocess
+import patch
 
 from util import ARCHITECTURES, BASE, SYSROOT, env_vars, ndk_unified_toolchain, parse_args
-
-import patch
 
 class Package:
     def __init__(self, target_arch_name: str, android_api_level: int):
@@ -35,7 +34,7 @@ class Package:
             '--disable-shared',
         ] + getattr(self, 'configure_args', []))
         
-        pset = patch.fromfile('Android/patchTrampc.patch')
+        pset = patch.fromfile('Android/trampc.patch')
         pset.apply()
 
     def make(self):
