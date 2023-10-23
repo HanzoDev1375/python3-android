@@ -85,7 +85,7 @@ class NCurses(Package):
     configure_args = ['--without-ada', '--enable-widec', '--without-debug', '--without-cxx-binding', '--disable-stripping']
 
 class OpenSSL(Package):
-    source = 'https://www.openssl.org/source/openssl-3.1.3.tar.gz'
+    source = 'https://www.openssl.org/source/openssl-3.0.11.tar.gz'
 
     def configure(self):
         # OpenSSL handles NDK internal paths by itself
