@@ -4,12 +4,12 @@ import logging
 import os
 import re
 import subprocess
-import patch
 from typing import List
+import subprocess
 
 from util import ARCHITECTURES, BASE, SYSROOT, env_vars, ndk_unified_toolchain, parse_args
 
-logger = logging.getLogger(__name__)
+import patch
 
 class Package:
     def __init__(self, target_arch_name: str, android_api_level: int):
@@ -19,7 +19,6 @@ class Package:
 
     def run(self, cmd: List[str]):
         cwd = BASE / 'deps' / re.sub(r'\.tar\..*', '', os.path.basename(self.source))
-        logger.debug(f'Running in {cwd}: ' + ' '.join([shlex.quote(str(arg)) for arg in cmd]))
         subprocess.check_call(cmd, cwd=cwd)
 
     def build(self):
@@ -36,7 +35,7 @@ class Package:
             '--disable-shared',
         ] + getattr(self, 'configure_args', []))
         
-        pset = patch.fromfile('Android/trampc.patch')
+        pset = patch.fromfile('Android/patchTrampc.patch')
         pset.apply()
 
     def make(self):
@@ -85,7 +84,7 @@ class NCurses(Package):
     configure_args = ['--without-ada', '--enable-widec', '--without-debug', '--without-cxx-binding', '--disable-stripping']
 
 class OpenSSL(Package):
-    source = 'https://www.openssl.org/source/openssl-3.0.11.tar.gz'
+    source = 'https://www.openssl.org/source/openssl-3.0.12.tar.gz'
 
     def configure(self):
         # OpenSSL handles NDK internal paths by itself
@@ -96,8 +95,6 @@ class OpenSSL(Package):
             str(ndk_unified_toolchain().parent / self.target_arch.ANDROID_TARGET / 'bin'),
             os.environ['PATH'],
         ))
-
-        logger.debug(f'$PATH for OpenSSL: {path}')
 
         os.environ['PATH'] = path
 
@@ -123,6 +120,17 @@ class SQLite(Package):
 
 class XZ(Package):
     source = 'https://tukaani.org/xz/xz-5.4.4.tar.xz'
+
+    def make(self):
+        print('******************** About to run make')
+        self.run([
+            'make', 
+            f'CFLAGS={os.environ["CFLAGS"]} {os.environ["CPPFLAGS"]}',
+        ])
+
+        print('******** Finished running make')
+
+
 
 class ZLib(Package):
     source = 'https://www.zlib.net/zlib-1.3.tar.gz'

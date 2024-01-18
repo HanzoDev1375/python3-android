@@ -1,0 +1,11 @@
+--- a/Android/deps/libffi-3.4.4/src/tramp.c	2022-10-23 10:23:27.000000000 -0500
++++ b/Android/deps/libffi-3.4.4/src/tramp.c	2023-10-10 15:04:02.008920000 -0500
+@@ -249,6 +249,8 @@
+   return 1;
+ }
+ 
++int open_temp_exec_file (void);
++
+ #endif /* defined (__linux__) || defined (__CYGWIN__) */
+ 
+ #if defined (__linux__) || defined (__CYGWIN__)
