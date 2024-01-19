@@ -5,7 +5,7 @@ set -x
 
 THIS_DIR="$PWD"
 
-PYVER=3.12.0
+PYVER=3.12.1
 SRCDIR=src/Python-$PYVER
 
 COMMON_ARGS="--arch ${ARCH:-arm} --api ${ANDROID_API:-26}"
@@ -27,14 +27,11 @@ cp -r Android $SRCDIR
 pushd $SRCDIR
 patch -Np1 -i ./Android/unversioned-libpython.patch
 autoreconf -ifv
+patch -Np1 -i ./Android/bldlibrary.patch
 ./Android/build_deps.py $COMMON_ARGS
 ./Android/configure.py $COMMON_ARGS --prefix=/usr "$@"
-echo "********Before Python Make"
 make
-echo "********Before Python Make Install"
 make install DESTDIR="$THIS_DIR/build"
-echo "********After Python Make Install"
 popd
 cp -r $SRCDIR/Android/sysroot/usr/share/terminfo build/usr/share/
 cp devscripts/env.sh build/
-	
