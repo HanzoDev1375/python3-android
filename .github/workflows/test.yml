@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: arm64-build
-          path: ./path-to-arm64-build-output/*
+          path: ./build/*
 
       - name: Clean
         run: sudo ./clean.sh
@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: arm-build
-          path: ./path-to-arm-build-output/*
+          path: ./build/*
 
       - name: Clean
         run: sudo ./clean.sh
@@ -58,5 +58,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: x86_64-build
-          path: ./path-to-x86_64-build-output/*
+          path: ./build/*
           
