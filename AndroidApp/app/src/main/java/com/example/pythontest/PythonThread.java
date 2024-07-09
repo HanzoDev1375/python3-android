@@ -53,16 +53,11 @@ public class PythonThread extends Thread
             unzipFileFromAssets("Pythonx86_64.zip");
             lTempPath += "Pythonx86_64";
         }
-        else if ( Common.is64bitProcessor())
+        else
         {
             // Extract our 64bit zip
             unzipFileFromAssets("Python64.zip");
             lTempPath += "Python64";
-        }
-        else
-        {
-            unzipFileFromAssets("Python32.zip");
-            lTempPath += "Python32";
         }
 
         // Put the python files where we can execute them

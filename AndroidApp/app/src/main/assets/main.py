@@ -17,8 +17,9 @@ def main():
 
     print('You should see this #1')
     try:
-        import requests
-    except:
+        import __phello__
+    except Exception as e:
+        print(Exception, e)
         print('You should NOT see this!!!!')
     finally:
         print('You should see this #2')
