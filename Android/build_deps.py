@@ -84,7 +84,7 @@ class NCurses(Package):
     configure_args = ['--without-ada', '--enable-widec', '--without-debug', '--without-cxx-binding', '--disable-stripping']
 
 class OpenSSL(Package):
-    source = 'https://www.openssl.org/source/openssl-3.0.11.tar.gz'
+    source = 'https://www.openssl.org/source/openssl-3.0.12.tar.gz'
 
     def configure(self):
         # OpenSSL handles NDK internal paths by itself
@@ -116,10 +116,10 @@ class Readline(Package):
     configure_args = ['bash_cv_wcwidth_broken=yes']
 
 class SQLite(Package):
-    source = 'https://sqlite.org/2023/sqlite-autoconf-3430100.tar.gz'
+    source = 'https://sqlite.org/2024/sqlite-autoconf-3460000.tar.gz'
 
 class XZ(Package):
-    source = 'https://tukaani.org/xz/xz-5.4.4.tar.xz'
+    source = 'https://tukaani.org/xz/xz-5.6.2.tar.xz'
 
     def make(self):
         print('******************** About to run make')
@@ -133,7 +133,7 @@ class XZ(Package):
 
 
 class ZLib(Package):
-    source = 'https://www.zlib.net/zlib-1.3.tar.gz'
+    source = 'https://www.zlib.net/zlib-1.3.1.tar.gz'
 
     def configure(self):
         os.environ.update({

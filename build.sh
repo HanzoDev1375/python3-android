@@ -5,10 +5,10 @@ set -x
 
 THIS_DIR="$PWD"
 
-PYVER=3.12.1
+PYVER=3.12.4
 SRCDIR=src/Python-$PYVER
 
-COMMON_ARGS="--arch ${ARCH:-arm} --api ${ANDROID_API:-26}"
+COMMON_ARGS="--arch ${ARCH:-arm} --api ${ANDROID_API:-30}"
 
 if [ ! -d $SRCDIR ]; then
     mkdir -p src
