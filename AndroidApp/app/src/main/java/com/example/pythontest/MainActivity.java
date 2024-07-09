@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity
 
         // load library to ensure we have access to native layer
         // we do this because if the service isn't running yet, we don't have access to setLMSParameters
-        System.loadLibrary("python3.11");
+        System.loadLibrary("python3.12");
         System.loadLibrary("pythonthread");
 
 
@@ -34,9 +34,13 @@ public class MainActivity extends AppCompatActivity
                 .setAction("Action", null).show());
 
         // Create our Python Thread
-        PythonThread lThread = new PythonThread(this);
-        lThread.start();
+        PythonThread lThread = new PythonThread(this) {
+            public void run() {
+                this.setName("PythonEngine");
+            }
+        };
 
+        lThread.start();
     }
 
     @Override

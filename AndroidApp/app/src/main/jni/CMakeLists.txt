@@ -10,8 +10,6 @@ set(jni_src_dir ${CMAKE_SOURCE_DIR}/../jni)
 
 if (${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
     include_directories(${jni_src_dir}/Pythonx86_64)
-elseif("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
-    include_directories(${jni_src_dir}/Python32)
 else()
     include_directories(${jni_src_dir}/Python64)
 endif()
@@ -24,8 +22,8 @@ include_directories(${jni_src_dir}/python
 )
 
 # define the 3rd party libraries to include in this project
-add_library(python311 SHARED IMPORTED)
-set_target_properties(python311 PROPERTIES IMPORTED_LOCATION ${distribution_dir}/${ANDROID_ABI}/libpython3.11.so IMPORTED_NO_SONAME TRUE)
+add_library(python312 SHARED IMPORTED)
+set_target_properties(python312 PROPERTIES IMPORTED_LOCATION ${distribution_dir}/${ANDROID_ABI}/libpython3.12.so IMPORTED_NO_SONAME TRUE)
 
 # set various C and CXX(++) flags
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DNDEBUG")
@@ -45,7 +43,7 @@ SET_TARGET_PROPERTIES (pythonthread PROPERTIES LINKER_LANGUAGE CXX)
 
 # lastly, set to link against the 3rd party libs above
 target_link_libraries(pythonthread
-                      python311
+                      python312
                       log
                       atomic
                       android)
