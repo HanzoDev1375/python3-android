@@ -5,7 +5,7 @@ set -x
 
 THIS_DIR="$PWD"
 
-PYVER=3.12.4
+PYVER=3.13.0
 SRCDIR=src/Python-$PYVER
 
 COMMON_ARGS="--arch ${ARCH:-arm} --api ${ANDROID_API:-30}"
@@ -25,9 +25,7 @@ fi
 
 cp -r Android $SRCDIR
 pushd $SRCDIR
-patch -Np1 -i ./Android/unversioned-libpython.patch
 autoreconf -ifv
-patch -Np1 -i ./Android/bldlibrary.patch
 ./Android/build_deps.py $COMMON_ARGS
 ./Android/configure.py $COMMON_ARGS --prefix=/usr "$@"
 make

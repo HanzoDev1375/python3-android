@@ -66,25 +66,26 @@ class BZip2(Package):
         self.run(['install', '-Dm644', 'bzlib.h', '-t', str(SYSROOT / 'usr' / 'include')])
 
 class GDBM(Package):
-    source = 'https://ftp.gnu.org/gnu/gdbm/gdbm-1.23.tar.gz'
+    source = 'https://ftp.gnu.org/gnu/gdbm/gdbm-1.24.tar.gz'
     configure_args = ['--enable-libgdbm-compat']
 
 class LibFFI(Package):
-    source = 'https://github.com/libffi/libffi/releases/download/v3.4.4/libffi-3.4.4.tar.gz'
+    source = 'https://github.com/libffi/libffi/releases/download/v3.4.7/libffi-3.4.7.tar.gz'
     # libffi may fail to configure with Docker on WSL2 (#33)
     configure_args = ['--disable-builddir']
 
 class LibUUID(Package):
-    source = 'https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.39/util-linux-2.39.2.tar.xz'
+    source = 'https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.40/util-linux-2.40.4.tar.xz'
     configure_args = ['--disable-all-programs', '--enable-libuuid']
 
 class NCurses(Package):
-    source = 'https://ftp.gnu.org/gnu/ncurses/ncurses-6.4.tar.gz'
+    source = 'https://ftp.gnu.org/gnu/ncurses/ncurses-6.5.tar.gz'
     # Not stripping the binaries as there is no easy way to specify the strip program for Android
     configure_args = ['--without-ada', '--enable-widec', '--without-debug', '--without-cxx-binding', '--disable-stripping']
 
 class OpenSSL(Package):
-    source = 'https://www.openssl.org/source/openssl-3.0.12.tar.gz'
+    # was 3.0.12
+    source = 'https://www.openssl.org/source/openssl-3.4.0.tar.gz'
 
     def configure(self):
         # OpenSSL handles NDK internal paths by itself
@@ -119,7 +120,7 @@ class SQLite(Package):
     source = 'https://sqlite.org/2024/sqlite-autoconf-3460000.tar.gz'
 
 class XZ(Package):
-    source = 'https://tukaani.org/xz/xz-5.6.2.tar.xz'
+    source = 'https://tukaani.org/xz/xz-5.6.4.tar.xz'
 
     def make(self):
         print('******************** About to run make')
