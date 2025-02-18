@@ -32,8 +32,8 @@ jobs:
     strategy:
       matrix:
         env:
-          - { ARCH: arm,     API: 23 }
-          - { ARCH: arm64,   API: 23 }
+          - { ARCH: arm,     API: 30 }
+          - { ARCH: arm64,   API: 30 }
     env:
       PYVER: 3.13.0
     steps:
