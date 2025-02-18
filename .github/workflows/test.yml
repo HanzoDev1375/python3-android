@@ -35,8 +35,9 @@ jobs:
           - { ARCH: arm,     API: 23 }
           - { ARCH: arm64,   API: 23 }
     env:
-      PYVER: 3.10.0
+      PYVER: 3.13.0
     steps:
+    - uses: actions/checkout@v4
     - name: Install autotools
       run: |
         sudo apt-get install -y autotools-dev autoconf
