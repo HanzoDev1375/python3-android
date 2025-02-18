@@ -37,12 +37,9 @@ jobs:
     env:
       PYVER: 3.10.0
     steps:
-    - name: Ensure latest autoconf
-      uses: msys2/setup-msys2@v2
-      with:
-        update: true
-        install: >-
-          autotools- name: Checkout main repo
+    - name: Install autotools
+      run: |
+        sudo apt-get install -y autotools-dev autoconf
     - name: Building
       run: |
         docker run --rm -v $(pwd):/python3-android \
