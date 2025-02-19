@@ -39,8 +39,16 @@ jobs:
     steps:
     - name: Checkout main repo
       uses: actions/checkout@v2
-    - name: Install Autoconf
-      run: sudo apt-get update && sudo apt-get install -y autoconf
+    - name: Install Autoconf (new version)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wget
+        wget https://ftp.gnu.org/gnu/autoconf/autoconf-2.71.tar.gz
+        tar -xvzf autoconf-2.71.tar.gz
+        cd autoconf-2.71
+        ./configure
+        make
+        sudo make install
     - name: Building
       run: |
         docker run --rm -v $(pwd):/python3-android \
