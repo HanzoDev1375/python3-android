@@ -39,6 +39,8 @@ jobs:
     steps:
     - name: Checkout main repo
       uses: actions/checkout@v2
+    - name: Install Autoconf
+      run: sudo apt-get update && sudo apt-get install -y autoconf
     - name: Building
       run: |
         docker run --rm -v $(pwd):/python3-android \
