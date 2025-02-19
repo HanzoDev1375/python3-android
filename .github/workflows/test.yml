@@ -42,7 +42,7 @@ jobs:
         sudo apt-get update
         sudo apt-get remove -y autoconf  # حذف نسخه قدیمی
         sudo apt-get install -y software-properties-common
-        sudo add-apt-repository ppa:deadsnakes/ppa  # افزودن مخزن PPA
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test  # افزودن مخزن PPA
         sudo apt-get update
         sudo apt-get install -y autoconf  # نصب نسخه جدید
         autoconf --version  # بررسی نسخه نصب شده
