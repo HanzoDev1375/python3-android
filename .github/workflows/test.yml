@@ -2,8 +2,6 @@ name: Testing
 
 on: push
 
-# Release-related code borrowed from
-# https://github.com/actions/create-release/issues/14#issuecomment-555379810
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -39,16 +37,18 @@ jobs:
     steps:
     - name: Checkout main repo
       uses: actions/checkout@v2
-    - name: Install Autoconf (new version)
+    - name: Install newer version of Autoconf
       run: |
         sudo apt-get update
         sudo apt-get install -y wget
+        sudo apt-get remove -y autoconf  # حذف نسخه قدیمی
         wget https://ftp.gnu.org/gnu/autoconf/autoconf-2.71.tar.gz
         tar -xvzf autoconf-2.71.tar.gz
         cd autoconf-2.71
         ./configure
         make
         sudo make install
+        autoconf --version  # بررسی نسخه نصب شده
     - name: Building
       run: |
         docker run --rm -v $(pwd):/python3-android \
