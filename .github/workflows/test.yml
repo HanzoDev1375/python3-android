@@ -54,7 +54,7 @@ jobs:
         cd build && sudo bsdtar --xz -cf $package_filename *
         echo ::set-output name=package_filename::$package_filename
     - name: Load Release URL File from release job
-      uses: actions/download-artifact@v1
+      uses: actions/download-artifact@v3
       if: contains(github.ref, '-android')
       with:
         name: release_url
